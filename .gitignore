@@ -1,0 +1,15 @@
+.env
+ffmpeg.exe
+venv/
+*.bat
+composer-setup.php
+test_db.php
+storage/worker_ping.txt
+storage/uploads/*
+storage/audio/*
+storage/transcriptions/*
+storage/logs/*
+!storage/uploads/.gitkeep
+!storage/audio/.gitkeep
+!storage/transcriptions/.gitkeep
+!storage/logs/.gitkeep

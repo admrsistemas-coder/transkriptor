@@ -1,0 +1,13 @@
+.git
+.env
+ffmpeg.exe
+venv
+*.bat
+storage/uploads/*
+storage/audio/*
+storage/transcriptions/*
+storage/logs/*
+!storage/uploads/.gitkeep
+!storage/audio/.gitkeep
+!storage/transcriptions/.gitkeep
+!storage/logs/.gitkeep
