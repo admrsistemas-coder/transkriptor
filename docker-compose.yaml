@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "80"
+    volumes:
+      - app_storage:/var/www/html/storage
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=transcritor
+      - DB_USERNAME=transcritor
+      - DB_PASSWORD=secret
+    depends_on:
+      - db
+
+  worker:
+    build: .
+    restart: unless-stopped
+    command: php /var/www/html/worker/worker.php
+    volumes:
+      - app_storage:/var/www/html/storage
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=transcritor
+      - DB_USERNAME=transcritor
+      - DB_PASSWORD=secret
+      - FFMPEG_PATH=ffmpeg
+      - PYTHON_PATH=/opt/venv/bin/python
+      - HF_HOME=/var/www/html/storage/models
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=transcritor
+      - MYSQL_USER=transcritor
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=root_secret
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
+  app_storage:
